@@ -14,8 +14,8 @@ uint16_t DFRobot_SHT20::readValue(byte cmd)
     byte toRead;
     byte counter;
     for(counter = 0, toRead = 0 ; counter < MAX_COUNTER && toRead != 3; counter++){
-    delay(DELAY_INTERVAL);
-    toRead = i2cPort->requestFrom(SLAVE_ADDRESS, 3);
+        delay(DELAY_INTERVAL);
+        toRead = i2cPort->requestFrom(SLAVE_ADDRESS, 3);
     }
     if(counter == MAX_COUNTER){
         return (ERROR_I2C_TIMEOUT);
@@ -88,7 +88,7 @@ byte DFRobot_SHT20::checkCRC(uint16_t message_from_sensor, uint8_t check_value_f
     uint32_t divsor = (uint32_t)SHIFTED_DIVISOR;
     for(int i = 0 ; i < 16 ; i++){
         if(remainder & (uint32_t)1 << (23 - i)){
-              remainder ^= divsor;
+            remainder ^= divsor;
         }
         divsor >>= 1;
     }
