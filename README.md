@@ -20,7 +20,7 @@ The library is used to Use the SHT20 Sensor to obtain humidity and temperature.
 /*
  * @brief Init SHT20 Sensor
  */
- void initSHT20(void);
+void initSHT20(void);
 
 /*
  * @brief Check SHT20 Sensor
