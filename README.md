@@ -17,16 +17,27 @@ The library is used to Use the SHT20 Sensor to obtain humidity and temperature.
 
 ```C++
 
-//Init SHT20 Sensor
-void initSHT20(void);
+/*
+ * @brief Init SHT20 Sensor
+ */
+ void initSHT20(void);
 
-//Check SHT20 Sensor 
+/*
+ * @brief Check SHT20 Sensor
+ */
 void checkSHT20(void);
 
-//Read Humidity
+/*
+ * @brief Read humidity
+ *
+ * @return The value of humidity
 float readHumidity(void);
 
-//Read Temperature
+/*
+ * @breif Read Temperature
+ *
+ * @return The value of temperature
+ */
 float readTemperature(void);
 
 ```
