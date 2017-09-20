@@ -31,6 +31,7 @@ void checkSHT20(void);
  * @brief Read humidity
  *
  * @return The value of humidity
+ */
 float readHumidity(void);
 
 /*
