@@ -10,7 +10,10 @@ uint16_t DFRobot_SHT20::readValue(byte cmd)
 {
     i2cPort->beginTransmission(SLAVE_ADDRESS);
     i2cPort->write(cmd);
-    i2cPort->endTransmission();
+    byte status = i2cPort->endTransmission();
+    if(status != 0){
+        return (ERROR_I2C_TIMEOUT);
+    }
     byte toRead;
     byte counter;
     for(counter = 0, toRead = 0 ; counter < MAX_COUNTER && toRead != 3; counter++){
