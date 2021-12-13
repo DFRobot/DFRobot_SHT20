@@ -1,37 +1,26 @@
+/*!
+ * @file  DFRobot_SHT20.cpp
+ * @brief  Define the basic structure of class DFRobot_SHT20
+ * @details  可以通过这个库驱动SHT20, 可获取温湿度
+ * @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
+ * @license  The MIT License (MIT)
+ * @author  [Zhangjiawei](jiawei.zhang@dfrobot.com)
+ * @maintainer  [qsjhyy](yihuan.huang@dfrobot.com)
+ * @version  V1.0
+ * @date  2021-12-03
+ * @url  https://github.com/DFRobot/DFRobot_SHT20
+ */
 #include "DFRobot_SHT20.h"
 
-void DFRobot_SHT20::initSHT20(TwoWire &wirePort)
+DFRobot_SHT20::DFRobot_SHT20(TwoWire *pWire, uint8_t sht20Addr)
 {
-    i2cPort = &wirePort;
-    i2cPort->begin();
+  _addr = sht20Addr;
+  _pWire = pWire;
 }
 
-uint16_t DFRobot_SHT20::readValue(byte cmd)
+void DFRobot_SHT20::initSHT20()
 {
-    i2cPort->beginTransmission(SLAVE_ADDRESS);
-    i2cPort->write(cmd);
-    byte status = i2cPort->endTransmission();
-    if(status != 0){
-        return (ERROR_I2C_TIMEOUT);
-    }
-    byte toRead;
-    byte counter;
-    for(counter = 0, toRead = 0 ; counter < MAX_COUNTER && toRead != 3; counter++){
-        delay(DELAY_INTERVAL);
-        toRead = i2cPort->requestFrom(SLAVE_ADDRESS, 3);
-    }
-    if(counter == MAX_COUNTER){
-        return (ERROR_I2C_TIMEOUT);
-    }
-    byte msb, lsb, checksum;
-    msb = i2cPort->read();
-    lsb = i2cPort->read();
-    checksum = i2cPort->read();
-    uint16_t rawValue = ((uint16_t) msb << 8) | (uint16_t) lsb;
-    if(checkCRC(rawValue, checksum) != 0){
-        return (ERROR_BAD_CRC);
-    }
-    return rawValue & 0xFFFC;
+    _pWire->begin();
 }
 
 float DFRobot_SHT20::readHumidity(void)
@@ -56,6 +45,14 @@ float DFRobot_SHT20::readTemperature(void)
     return (realTemperature);
 }
 
+void DFRobot_SHT20::checkSHT20(void)
+{
+    byte reg = readUserRegister();
+    showReslut("End of battery: ", reg & USER_REGISTER_END_OF_BATTERY);
+    showReslut("Heater enabled: ", reg & USER_REGISTER_HEATER_ENABLED);
+    showReslut("Disable OTP reload: ", reg & USER_REGISTER_DISABLE_OTP_RELOAD);
+}
+
 void DFRobot_SHT20::setResolution(byte resolution)
 {
     byte userRegister = readUserRegister();
@@ -68,20 +65,30 @@ void DFRobot_SHT20::setResolution(byte resolution)
 byte DFRobot_SHT20::readUserRegister(void)
 {
     byte userRegister;
-    i2cPort->beginTransmission(SLAVE_ADDRESS);
-    i2cPort->write(READ_USER_REG);
-    i2cPort->endTransmission();
-    i2cPort->requestFrom(SLAVE_ADDRESS, 1);
-    userRegister = i2cPort->read();
+    _pWire->beginTransmission(_addr);
+    _pWire->write(READ_USER_REG);
+    _pWire->endTransmission();
+    _pWire->requestFrom(_addr, (uint8_t)1);
+    userRegister = _pWire->read();
     return (userRegister);
 }
 
 void DFRobot_SHT20::writeUserRegister(byte val)
 {
-    i2cPort->beginTransmission(SLAVE_ADDRESS);
-    i2cPort->write(WRITE_USER_REG);
-    i2cPort->write(val);
-    i2cPort->endTransmission();
+    _pWire->beginTransmission(_addr);
+    _pWire->write(WRITE_USER_REG);
+    _pWire->write(val);
+    _pWire->endTransmission();
+}
+
+void DFRobot_SHT20::showReslut(const char *prefix, int val)
+{
+    Serial.print(prefix);
+    if(val){
+        Serial.println("yes");
+    }else{
+        Serial.println("no");
+    }
 }
 
 byte DFRobot_SHT20::checkCRC(uint16_t message_from_sensor, uint8_t check_value_from_sensor)
@@ -98,20 +105,29 @@ byte DFRobot_SHT20::checkCRC(uint16_t message_from_sensor, uint8_t check_value_f
     return (byte)remainder;
 }
 
-void DFRobot_SHT20::showReslut(const char *prefix, int val)
+uint16_t DFRobot_SHT20::readValue(byte cmd)
 {
-    Serial.print(prefix);
-    if(val){
-        Serial.println("yes");
-    }else{
-        Serial.println("no");
+    _pWire->beginTransmission(_addr);
+    _pWire->write(cmd);
+    if(0 != _pWire->endTransmission()){   // Used Wire.endTransmission() to end a slave transmission started by beginTransmission() and arranged by write().
+      return (ERROR_I2C_TIMEOUT);
     }
-}
-
-void DFRobot_SHT20::checkSHT20(void)
-{
-    byte reg = readUserRegister();
-    showReslut("End of battery: ", reg & USER_REGISTER_END_OF_BATTERY);
-    showReslut("Heater enabled: ", reg & USER_REGISTER_HEATER_ENABLED);
-    showReslut("Disable OTP reload: ", reg & USER_REGISTER_DISABLE_OTP_RELOAD);
+    byte toRead;
+    byte counter;
+    for(counter = 0, toRead = 0 ; counter < MAX_COUNTER && toRead != 3; counter++){
+        delay(DELAY_INTERVAL);
+        toRead = _pWire->requestFrom(_addr, (uint8_t)3);
+    }
+    if(counter == MAX_COUNTER){
+        return (ERROR_I2C_TIMEOUT);
+    }
+    byte msb, lsb, checksum;
+    msb = _pWire->read();
+    lsb = _pWire->read();
+    checksum = _pWire->read();
+    uint16_t rawValue = ((uint16_t) msb << 8) | (uint16_t) lsb;
+    if(checkCRC(rawValue, checksum) != 0){
+        return (ERROR_BAD_CRC);
+    }
+    return rawValue & 0xFFFC;
 }

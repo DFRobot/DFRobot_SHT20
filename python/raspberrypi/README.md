@@ -8,8 +8,7 @@ Besides the capacitive type humidity sensor and the band gap temperature sensor,
 To compare with early SHT1x series and SHT7x series, SHT20 shows better reliability and long-term stability.
 It can measure surrounding environment temperature and relative air humidity precisely.
 
-
-![产品实物图](./resources/images/SHT20.png)
+![产品实物图](../../resources/images/SHT20.png)
 
 
 ## Product Link (https://www.dfrobot.com/product-1636.html)
@@ -38,66 +37,62 @@ It can measure surrounding environment temperature and relative air humidity pre
 
 ## Installation
 
-To use this library, first download the library file, paste it into the \Arduino\libraries directory, 
-then open the examples folder and run the demo in the folder.
+To use the library, first download the library file, paste it into the directory you specified, then open the Examples folder and run the demo in that folder.
 
 
 ## Methods
 
-```C++
+```python
 
-  /**
-   * @fn initSHT20
-   * @brief 初始化函数
-   * @return None
-   */
-  void initSHT20(void);
+  '''!
+    @brief 读取空气湿度测量数据
+    @return 返回float类型的空气湿度测量数据, 单位: %
+  '''
+  @property
+  def read_humidity(self):
 
-  /**
-   * @fn readHumidity
-   * @brief 读取空气湿度测量数据
-   * @return 返回float类型的空气湿度测量数据, 单位: %
-   */
-  float readHumidity(void);
+  '''!
+    @brief 读取温度测量数据
+    @return 返回float类型的温度测量数据, 单位: C
+  '''
+  @property
+  def read_temperature(self):
 
-  /**
-   * @fn readTemperature
-   * @brief 读取温度测量数据
-   * @return 返回float类型的温度测量数据, 单位: C
-   */
-  float readTemperature(void);
-
-  /**
-   * @fn checkSHT20
-   * @brief 检测SHT20当前状态信息
-   * @n 状态信息包括: End of battery, Heater enabled, Disable OTP reload
-   * @n 检测结果包括: yes, no
-   * @return None
-   */
-  void checkSHT20(void);
+  '''!
+    @brief 检测SHT20当前状态信息
+    @n 状态信息包括: End of battery, Heater enabled, Disable OTP reload
+    @n 检测结果包括: yes, no
+  '''
+  @property
+  def check_SHT20(self):
 
 ```
 
 
 ## Compatibility
 
-MCU                | Work Well    | Work Wrong   | Untested    | Remarks
------------------- | :----------: | :----------: | :---------: | :----:
-Arduino Uno        |      √       |              |             |
-Arduino MEGA2560   |      √       |              |             |
-Arduino Leonardo   |      √       |              |             |
-FireBeetle-ESP8266 |      √       |              |             |
-FireBeetle-ESP32   |      √       |              |             |
-FireBeetle-M0      |      √       |              |             |
-Micro:bit          |      √       |              |             |
+* RaspberryPi Version
+
+| Board        | Work Well | Work Wrong | Untested | Remarks |
+| ------------ | :-------: | :--------: | :------: | ------- |
+| RaspberryPi2 |           |            |    √     |         |
+| RaspberryPi3 |           |            |    √     |         |
+| RaspberryPi4 |     √     |            |          |         |
+
+* Python Version
+
+| Python  | Work Well | Work Wrong | Untested | Remarks |
+| ------- | :-------: | :--------: | :------: | ------- |
+| Python2 |     √     |            |          |         |
+| Python3 |     √     |            |          |         |
 
 
 ## History
 
-- 2017-9-12 - Version 1.0.0 released.
+- 2021/12/03 - Version 1.0.0 released.
 
 
 ## Credits
 
-Written by Zhangjiawei(jiawei.zhang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
+Written by qsjhyy(yihuan.huang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
 
