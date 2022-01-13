@@ -1,7 +1,7 @@
 /*!
  * @file  DFRobot_SHT20.cpp
  * @brief  Define the basic structure of class DFRobot_SHT20
- * @details  可以通过这个库驱动SHT20, 可获取温湿度
+ * @details  Drive SHT20 through this library to get temp and humidity
  * @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license  The MIT License (MIT)
  * @author  [Zhangjiawei](jiawei.zhang@dfrobot.com)

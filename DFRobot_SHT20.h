@@ -1,7 +1,7 @@
 /*!
  * @file  DFRobot_SHT20.h
  * @brief  Define infrastructure of DFRobot_SHT20 class
- * @details  可以通过这个库驱动SHT20, 可获取温湿度
+ * @details  Drive SHT20 through this library to get temp and humidity
  * @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license  The MIT License (MIT)
  * @author  [Zhangjiawei](jiawei.zhang@dfrobot.com)
@@ -16,7 +16,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-// #define ENABLE_DBG   //!< 打开这个宏, 可以看到程序的详细运行过程
+// #define ENABLE_DBG   //!< Open the macro and you can see the details of the program
 #ifdef ENABLE_DBG
   #define DBG(...) {Serial.print("[");Serial.print(__FUNCTION__); Serial.print("(): "); Serial.print(__LINE__); Serial.print(" ] "); Serial.println(__VA_ARGS__);}
 #else
@@ -53,39 +53,39 @@ class DFRobot_SHT20
 public:
   /**
    * @fn DFRobot_SHT20
-   * @brief 构造函数
-   * @param pWire Wire.h里定义了Wire对象, 因此使用&Wire就能够指向并使用Wire中的方法
-   * @param sht20Addr SHT20的i2c通信地址
+   * @brief Constructor
+   * @param pWire Wire object is defined in Wire.h, so just use &Wire, and the methods in Wire can be pointed to and used
+   * @param sht20Addr I2C communication address of SHT20
    * @return None
    */
   DFRobot_SHT20(TwoWire *pWire=&Wire, uint8_t sht20Addr=SHT20_I2C_ADDR);
 
   /**
    * @fn initSHT20
-   * @brief 初始化函数
+   * @brief Init function
    * @return None
    */
   void initSHT20(void);
 
   /**
    * @fn readHumidity
-   * @brief 读取空气湿度测量数据
-   * @return 返回float类型的空气湿度测量数据, 单位: %
+   * @brief Read the measured data of air humidity
+   * @return Return the measured air humidity data of float type, unit: %
    */
   float readHumidity(void);
 
   /**
    * @fn readTemperature
-   * @brief 读取温度测量数据
-   * @return 返回float类型的温度测量数据, 单位: C
+   * @brief Read the measured temp data
+   * @return Return the measured temp data of float type, unit: C
    */
   float readTemperature(void);
 
   /**
    * @fn checkSHT20
-   * @brief 检测SHT20当前状态信息
-   * @n 状态信息包括: End of battery, Heater enabled, Disable OTP reload
-   * @n 检测结果包括: yes, no
+   * @brief Check the current status information of SHT20
+   * @n Status information: End of battery, Heater enabled, Disable OTP reload
+   * @n Check result: yes, no
    * @return None
    */
   void checkSHT20(void);
@@ -93,56 +93,56 @@ public:
 protected:
   /**
    * @fn setResolution
-   * @brief 设置sht20的测量分辨率
-   * @param resBits SHT20的测量分辨率模式
+   * @brief Set measurement resolution of sht20
+   * @param resBits The measurement resolution mode of SHT20
    * @return None
    */
   void setResolution(byte resBits);
 
   /**
    * @fn readUserRegister
-   * @brief 读用户寄存器
-   * @return 读到的字节
+   * @brief Read user register
+   * @return The read byte
    */
   byte readUserRegister(void);
 
   /**
    * @fn writeUserRegister
-   * @brief 写用户寄存器
-   * @param val 写入的字节
+   * @brief Write user register
+   * @param val The written byte
    * @return None
    */
   void writeUserRegister(byte val);
 
   /**
    * @fn showReslut
-   * @brief 打印SHT20当前状态信息的检测结果
-   * @param prefix 要打印的状态信息字符串
-   * @param val 要打印的状态信息结果
+   * @brief Print the check result of the current SHT20 status information
+   * @param prefix The status information character string to be printed
+   * @param val The status information result to be printed
    * @return None
    */
   void showReslut(const char *prefix, int val);
 
   /**
    * @fn checkCRC
-   * @brief 计算并校验crc
-   * @param message_from_sensor 从传感器读到的数据
-   * @param check_value_from_sensor 从传感器读到的校验值
-   * @return 返回校验结果, 为零表示校验通过
+   * @brief Calculate and check crc
+   * @param message_from_sensor The data read from the sensor
+   * @param check_value_from_sensor The check value read from the sensor
+   * @return Return the check result, 0 indicate check passed
    */
   byte checkCRC(uint16_t message_from_sensor, uint8_t check_value_from_sensor);
 
   /**
    * @fn readValue
-   * @brief 通过I2C总线读取寄存器值
-   * @param cmd 发送的读取命令
-   * @return 返回读取的16位数据
+   * @brief Read the register value through I2C bus
+   * @param cmd The read command to be sent
+   * @return Return the read 16-bit data
    */
   uint16_t readValue(byte cmd);
 
 private:
-  uint8_t _addr;   // SHT20的I2C通信地址
-  TwoWire *_pWire;   // I2C通信方式的指针
+  uint8_t _addr;   // I2C communication address of SHT20
+  TwoWire *_pWire;   // The pointer to I2C communication method
 };
 
 #endif

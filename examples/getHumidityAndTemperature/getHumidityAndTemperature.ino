@@ -22,7 +22,7 @@
  * -SDA = A4 (use inline 330 ohm resistor if your board is 5V)
  * -SCL = A5 (use inline 330 ohm resistor if your board is 5V)
  */
-DFRobot_SHT20 sht20;
+DFRobot_SHT20 sht20(&Wire, SHT20_I2C_ADDR);
 
 void setup()
 {
@@ -34,9 +34,9 @@ void setup()
   Serial.println("Sensor init finish!");
 
   /**
-   * 检测SHT20当前状态信息
-   * 状态信息包括: End of battery, Heater enabled, Disable OTP reload
-   * 检测结果包括: yes, no
+   * Check the current status information of SHT20
+   * Status information: End of battery, Heater enabled, Disable OTP reload
+   * Check result: yes, no
    */
   sht20.checkSHT20();
 }
@@ -44,24 +44,24 @@ void setup()
 void loop()
 {
   /**
-   * 读取空气湿度测量数据
-   * 返回float类型的空气湿度测量数据, 单位: %
+   * Read the measured data of air humidity
+   * Return the measured air humidity data of float type, unit: %
    */
   float humd = sht20.readHumidity();
 
   /**
-   * 读取温度测量数据
-   * 返回float类型的温度测量数据, 单位: C
+   * Read the measured temp data
+   * Return the measured temp data of float type, unit: C
    */
   float temp = sht20.readTemperature();
 
   Serial.print("Time:");
-  Serial.print(millis());   // 从Arduino获取系统时间
+  Serial.print(millis());   // Get the system time from Arduino
   Serial.print(" Temperature:");
-  Serial.print(temp, 1);   // 只打印一位小数
+  Serial.print(temp, 1);   // Only print one decimal place
   Serial.print("C");
   Serial.print(" Humidity:");
-  Serial.print(humd, 1);   // 只打印一位小数
+  Serial.print(humd, 1);   // Only print one decimal place
   Serial.print("%");
   Serial.println();
 

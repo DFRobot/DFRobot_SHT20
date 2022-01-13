@@ -5,7 +5,7 @@ This is a SHT20 I2C temperature & humidity sensor with waterproof probe.
 It comes with the 4C CMOSens® SHT20 temperature & humidity sensor chip, and the probe has gone through dual waterproof protection.
 The SHT20 I2C temperature & humidity sensor adopt Sensirion new technique.
 Besides the capacitive type humidity sensor and the band gap temperature sensor, the chip contains an amplifier, A/D converter, OTP memory and a digital processing unit.
-To compare with early SHT1x series and SHT7x series, SHT20 shows better reliability and long-term stability.
+Compared with early SHT1x series and SHT7x series, SHT20 shows better reliability and long-term stability.
 It can measure surrounding environment temperature and relative air humidity precisely.
 
 
@@ -32,7 +32,7 @@ It can measure surrounding environment temperature and relative air humidity pre
 * The inner PCB has perfusion and encapsulation protection, and the probe enclosure is made of PE waterproof materials.
 * This is a special waterproof breathable material that allows water molecules to seep in, blocking water droplets from seeping in.
 * The sensor won't be damaged even if it is submerged in water for a long time.
-* There is a built-in 10k Pull-up resistor and 0.1uf filter capacitor, so It can be used directly with the microcontroller such as Arduino.
+* There is a built-in 10k Pull-up resistor and 0.1uf filter capacitor, so it can be used directly with the microcontroller such as Arduino.
 * Recommend DFRobot Gravity 4Pin Sensor Adapter, it is quite convenient.
 
 
@@ -48,30 +48,30 @@ then open the examples folder and run the demo in the folder.
 
   /**
    * @fn initSHT20
-   * @brief 初始化函数
+   * @brief Init function
    * @return None
    */
   void initSHT20(void);
 
   /**
    * @fn readHumidity
-   * @brief 读取空气湿度测量数据
-   * @return 返回float类型的空气湿度测量数据, 单位: %
+   * @brief Read the measured data of air humidity
+   * @return Return the measured air humidity data of float type, unit: %
    */
   float readHumidity(void);
 
   /**
    * @fn readTemperature
-   * @brief 读取温度测量数据
-   * @return 返回float类型的温度测量数据, 单位: C
+   * @brief Read the measured temp data
+   * @return Return the measured temp data of float type, unit: C
    */
   float readTemperature(void);
 
   /**
    * @fn checkSHT20
-   * @brief 检测SHT20当前状态信息
-   * @n 状态信息包括: End of battery, Heater enabled, Disable OTP reload
-   * @n 检测结果包括: yes, no
+   * @brief Check the current status information of SHT20
+   * @n Status information: End of battery, Heater enabled, Disable OTP reload
+   * @n Check result: yes, no
    * @return None
    */
   void checkSHT20(void);

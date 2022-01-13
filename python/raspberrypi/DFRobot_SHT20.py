@@ -2,7 +2,7 @@
 '''!
   @file  DFRobot_SHT20.h
   @brief  Define infrastructure of DFRobot_SHT20 class
-  @details  可以通过这个库驱动SHT20, 可获取温湿度
+  @details  Drive SHT20 through this library to get temp and humidity
   @copyright  Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
   @license  The MIT License (MIT)
   @author  [Zhangjiawei](jiawei.zhang@dfrobot.com)
@@ -29,14 +29,14 @@ ph.setFormatter(formatter)
 logger.addHandler(ph)
 
 
-## SHT20 I2C通信错误码
+## SHT20 I2C communication error code
 ERROR_I2C_TIMEOUT = 998
-## SHT20 crc校验错误码
+## SHT20 crc check error code
 ERROR_BAD_CRC     = 999
-## SHT20 I2C通信地址
+## SHT20 I2C communication address
 SHT20_I2C_ADDR    = 0x40
 
-# SHT20 通信命令
+# SHT20 Communication command
 TRIGGER_TEMP_MEASURE_HOLD            = 0xE3
 TRIGGER_HUMD_MEASURE_HOLD            = 0xE5
 TRIGGER_TEMP_MEASURE_NOHOLD          = 0xF3
@@ -61,15 +61,15 @@ MAX_COUNTER     = 10
 
 class DFRobot_SHT20(object):
   '''!
-    @brief 定义DFRobot_SHT20基类
-    @details 用于驱动温湿度传感器
+    @brief Define DFRobot_SHT20 basic class
+    @details Drive the temp and humidity sensor
   '''
 
   def __init__(self, i2c_addr=SHT20_I2C_ADDR, bus=1):
     '''!
       @brief Module I2C communication init
-      @param i2c_addr I2C通信地址
-      @param bus I2C总线
+      @param i2c_addr I2C communication address
+      @param bus I2C bus
     '''
     self._addr = i2c_addr
     self._i2c = smbus.SMBus(bus)
@@ -77,8 +77,8 @@ class DFRobot_SHT20(object):
   @property
   def read_humidity(self):
     '''!
-      @brief 读取空气湿度测量数据
-      @return 返回float类型的空气湿度测量数据, 单位: %
+      @brief Read the measured data of air humidity
+      @return Return the measured air humidity data of float type, unit: %
     '''
     buf = self._read_reg(TRIGGER_HUMD_MEASURE_HOLD, 2)
     humidity = ((buf[0] << 8) | buf[1]) * (125.0 / 65536.0) - 6.0
@@ -87,8 +87,8 @@ class DFRobot_SHT20(object):
   @property
   def read_temperature(self):
     '''!
-      @brief 读取温度测量数据
-      @return 返回float类型的温度测量数据, 单位: C
+      @brief Read the measured temp data
+      @return Return the measured temp data of float type, unit: C
     '''
     buf = self._read_reg(TRIGGER_TEMP_MEASURE_HOLD, 2)
     temperature = ((buf[0] << 8) | buf[1]) * (175.72 / 65536.0) - 46.85
@@ -97,9 +97,9 @@ class DFRobot_SHT20(object):
   @property
   def check_SHT20(self):
     '''!
-      @brief 检测SHT20当前状态信息
-      @n 状态信息包括: End of battery, Heater enabled, Disable OTP reload
-      @n 检测结果包括: yes, no
+      @brief Check the current status information of SHT20
+      @n Status information: End of battery, Heater enabled, Disable OTP reload
+      @n Check result: yes, no
     '''
     status = self._read_reg(READ_USER_REG, 1)[0]
     self._show_reslut("End of battery: ", status & USER_REGISTER_END_OF_BATTERY)
@@ -108,9 +108,9 @@ class DFRobot_SHT20(object):
 
   def _show_reslut(self, str, val):
     '''!
-      @brief 打印SHT20当前状态信息的检测结果
-      @param str 要打印的状态信息字符串
-      @param val 要打印的状态信息结果
+      @brief Print the check result of the current SHT20 status information
+      @param str The status information character string to be printed
+      @param val The status information result to be printed
     '''
     print(str, end='')
     if val:

@@ -45,23 +45,23 @@ To use the library, first download the library file, paste it into the directory
 ```python
 
   '''!
-    @brief 读取空气湿度测量数据
-    @return 返回float类型的空气湿度测量数据, 单位: %
+    @brief Read the measured data of air humidity
+    @return Return the measured air humidity data of float type, unit: %
   '''
   @property
   def read_humidity(self):
 
   '''!
-    @brief 读取温度测量数据
-    @return 返回float类型的温度测量数据, 单位: C
+    @brief Read the measured temp data
+    @return Return the measured temp data of float type, unit: C
   '''
   @property
   def read_temperature(self):
 
   '''!
-    @brief 检测SHT20当前状态信息
-    @n 状态信息包括: End of battery, Heater enabled, Disable OTP reload
-    @n 检测结果包括: yes, no
+    @brief Check the current status information of SHT20
+    @n Status information: End of battery, Heater enabled, Disable OTP reload
+    @n Check result: yes, no
   '''
   @property
   def check_SHT20(self):
